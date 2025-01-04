@@ -9,6 +9,8 @@ const SignupScreen = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
 
   const validateName = name => /^[a-zA-Z\s]+$/.test(name);
   const validateUsername = username => /^[a-zA-Z0-9_]{3,}$/.test(username);
@@ -87,6 +89,19 @@ const SignupScreen = ({navigation}) => {
           placeholder="Email"
           value={email}
           onChangeText={setEmail}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Phone Number"
+          value={phone}
+          onChangeText={setPhone}
+          keyboardType='phone-pad'
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Address"
+          value={address}
+          onChangeText={setAddress}
         />
         <TextInput
           style={styles.input}
