@@ -10,23 +10,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useState} from 'react';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
-import MainStack from '../../Root/MainStack';
 import {login} from '../../services/Auth';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
 
-  // const HandleLogin = () => {
-  //   if(Name === '' || Name === undefined){
-  //     Alert.alert("" , "Please Enter You Name")
-
-  //   } else {
-  //     HandleLogin()
-  //   }
-  // }
   const validateEmail = email => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
@@ -57,9 +48,22 @@ const LoginScreen = () => {
     try {
       const {emailVerified} = await login(email, password);
       if (emailVerified) {
+        const user = auth().currentUser;
+
+        // Check the user ID and navigate to a specific page based on it
+        if (user) {
+          const userId = user.uid;
+          if (userId === 'upty9ZVvykMStCrjUGZifHwwHJO2') {
+            // Navigate to page 1 if the user ID matches
+            navigation.reset({index: 0, routes: [{name: 'AdminStack'}]});
+          } else {
+            // Default navigation if user ID doesn't match
+            navigation.reset({index: 0, routes: [{name: 'MainStack'}]});
+          }
+        }
+
         setLoading(false);
         Alert.alert('Success', 'Login Successful');
-        navigation.reset({index: 0, routes: [{name: 'MainStack'}]});
         return;
       } else {
         Alert.alert('Error', 'Please verify your email');

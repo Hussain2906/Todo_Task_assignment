@@ -1,42 +1,53 @@
-import { StyleSheet, Text, View } from 'react-native';
+// Import necessary libraries
 import React, { useState, useEffect } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import auth from '@react-native-firebase/auth';
-import AuthStack from './AuthStack';
-import MainStack from './MainStack';
 
+// Import the different stacks
+import AuthStack from './AuthStack'; // Ensure these paths are correct
+import MainStack from './MainStack';
+import AdminStack from './AdminStack';
+
+// MainRout component
 const MainRout = () => {
   const Stack = createStackNavigator();
+  const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
+  const AdminUid = 'upty9ZVvykMStCrjUGZifHwwHJO2';
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(user => {
       if (user) {
-        setIsLoggedIn(true); // User is logged in
+        setIsLoggedIn(true);
+        setUser(user);
+        setIsAdmin(user.uid === AdminUid ); // Replace with actual admin UID
       } else {
-        setIsLoggedIn(false); // User is not logged in
+        setIsLoggedIn(false);
+        setIsAdmin(false);
       }
     });
-
     return unsubscribe;
   }, []);
 
   if (isLoggedIn === null) {
-    // You can add a loading spinner or placeholder here
-    return <Text>Loading...</Text>;
+    return <Text>Loading...</Text>; // You can replace with a loading spinner
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={isLoggedIn ? 'MainStack' : 'AuthStack'}>
-        <Stack.Screen name="AuthStack" component={AuthStack} />
-        <Stack.Screen name="MainStack" component={MainStack} />
+      <Stack.Navigator
+        initialRouteName={isLoggedIn ? (isAdmin ? 'AdminStack' : 'MainStack') : 'AuthStack'}
+      >
+        <Stack.Screen name="AuthStack" component={AuthStack} options={{headerShown:false}} />
+        <Stack.Screen name="MainStack" component={MainStack} options={{headerShown:false}} />
+        <Stack.Screen name="AdminStack" component={AdminStack} options={{headerShown:false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
+// Export the MainRout component
 export default MainRout;
-
-const styles = StyleSheet.create({});
