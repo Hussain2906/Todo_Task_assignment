@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Text,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import { signup } from '../../services/Auth';
 import firestore from '@react-native-firebase/firestore'; // Import Firestore
@@ -102,7 +103,7 @@ const SignupScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
@@ -111,24 +112,28 @@ const SignupScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Name"
+              placeholderTextColor={'black'}
               value={name}
               onChangeText={setName}
             />
             <TextInput
               style={styles.input}
               placeholder="Username"
+              placeholderTextColor={'black'}
               value={username}
               onChangeText={setUsername}
             />
             <TextInput
               style={styles.input}
               placeholder="Email"
+              placeholderTextColor={'black'}
               value={email}
               onChangeText={setEmail}
             />
             <TextInput
               style={styles.input}
               placeholder="Phone Number"
+              placeholderTextColor={'black'}
               value={phone}
               onChangeText={setPhone}
               keyboardType="phone-pad"
@@ -136,12 +141,14 @@ const SignupScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Address"
+              placeholderTextColor={'black'}
               value={address}
               onChangeText={setAddress}
             />
             <TextInput
               style={styles.input}
               placeholder="Password"
+              placeholderTextColor={'black'}
               secureTextEntry
               value={password}
               onChangeText={setPassword}
@@ -149,6 +156,7 @@ const SignupScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Confirm Password"
+              placeholderTextColor={'black'}
               secureTextEntry
               value={confirmPassword}
               onChangeText={setConfirmPassword}
@@ -165,7 +173,7 @@ const SignupScreen = ({ navigation }) => {
           </View>
         </View>
       )}
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

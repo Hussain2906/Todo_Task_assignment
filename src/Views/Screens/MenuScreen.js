@@ -73,8 +73,8 @@ const MenuScreen = () => {
           onBackdropPress={toggleModal}
           animationIn={'fadeIn'}
           animationOut={'fadeOut'}
-          animationOutTiming={2000}
-          animationInTiming={2000}
+          animationOutTiming={1000}
+          animationInTiming={1000}
           backdropOpacity={0.4}>
           <View style={styles.modal}>
             {isMenuLoading ? (

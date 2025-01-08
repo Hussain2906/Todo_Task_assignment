@@ -6,6 +6,7 @@ import {
   Button,
   SafeAreaView,
   Alert,
+  ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
 import {ThameFont} from '../../Constants/theme';
@@ -57,7 +58,7 @@ const AddMenu = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.container1}>
+      <ScrollView style={styles.container1}>
         <Text style={styles.heading}>Add Menu</Text>
         <Text style={styles.label}>Roti / Naan</Text>
         <TextInput style={styles.input} value={roti} onChangeText={setRoti} />
@@ -90,7 +91,7 @@ const AddMenu = () => {
         />
 
         <Button title="Submit" onPress={handleSubmit} color="#3B3030" />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
