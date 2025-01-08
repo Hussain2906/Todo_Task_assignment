@@ -10,92 +10,87 @@ import {
 import React, {useState} from 'react';
 import {ThameFont} from '../../Constants/theme';
 import firestore from '@react-native-firebase/firestore';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const AddMenu = () => {
-
   const navigation = useNavigation();
   const [roti, setRoti] = useState('');
   const [meethaas, setMeethaas] = useState('');
   const [tarkari, setTarkari] = useState('');
   const [rice, setRice] = useState('');
   const [thaliBy, setThaliBy] = useState('');
+  const [day, setDay] = useState('Monday'); // New state for the day
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    if (!roti || !meethaas || !tarkari || !rice || !thaliBy) {
+    if (!roti || !meethaas || !tarkari || !rice || !thaliBy || !day) {
       Alert.alert('Please fill all fields');
       return;
     }
     setLoading(true);
     try {
-      // Add new data to Firestore in the "dummyFormCollection" collection
+      // Add new data to Firestore with the day field
       await firestore().collection('ThaaliMenu').add({
         Roti: roti,
         Meethaas: meethaas,
         Tarkari: tarkari,
         Rice: rice,
         Thali_By: thaliBy,
-        createdAt: firestore.FieldValue.serverTimestamp(), // Adding a timestamp for when the document was created
+        Day: day, // Include the day field
+        createdAt: firestore.FieldValue.serverTimestamp(),
       });
       setLoading(false);
       navigation.navigate('AdminStack');
-      Alert.alert('Success', 'Form submitted successfully!');
-      // Optionally, reset the form after successful submission
+      Alert.alert('Success', 'Menu added successfully!');
+      // Reset form
       setRoti('');
       setMeethaas('');
       setTarkari('');
       setRice('');
       setThaliBy('');
+      setDay('Monday'); // Reset day to default
     } catch (error) {
+      setLoading(false);
       Alert.alert('Error', 'Failed to submit form: ' + error.message);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <View style={styles.container1}>
-          <View>
-            <Text style={styles.heading}>Add Menu</Text>
-          </View>
-          <View>
-            <Text style={styles.label}>Roti / Naan</Text>
-            <TextInput
-              style={styles.input}
-              value={roti}
-              onChangeText={setRoti}
-            />
-            <Text style={styles.label}>Meethaas</Text>
-            <TextInput
-              style={styles.input}
-              value={meethaas}
-              onChangeText={setMeethaas}
-            />
-            <Text style={styles.label}>Tarkari / Dal</Text>
-            <TextInput
-              style={styles.input}
-              value={tarkari}
-              onChangeText={setTarkari}
-            />
-            <Text style={styles.label}>Rice</Text>
-            <TextInput
-              style={styles.input}
-              value={rice}
-              onChangeText={setRice}
-            />
-            <Text style={styles.label}>Today's Thaali by?</Text>
-            <TextInput
-              style={styles.input}
-              value={thaliBy}
-              onChangeText={setThaliBy}
-            />
-            <Button title="Submit" onPress={handleSubmit} color="#3B3030" />
-          </View>
-        </View>
-      )}
+      <View style={styles.container1}>
+        <Text style={styles.heading}>Add Menu</Text>
+        <Text style={styles.label}>Roti / Naan</Text>
+        <TextInput style={styles.input} value={roti} onChangeText={setRoti} />
+        <Text style={styles.label}>Meethaas</Text>
+        <TextInput
+          style={styles.input}
+          value={meethaas}
+          onChangeText={setMeethaas}
+        />
+        <Text style={styles.label}>Tarkari / Dal</Text>
+        <TextInput
+          style={styles.input}
+          value={tarkari}
+          onChangeText={setTarkari}
+        />
+        <Text style={styles.label}>Rice</Text>
+        <TextInput style={styles.input} value={rice} onChangeText={setRice} />
+        <Text style={styles.label}>Today's Thaali by?</Text>
+        <TextInput
+          style={styles.input}
+          value={thaliBy}
+          onChangeText={setThaliBy}
+        />
+        {/* New day selection input */}
+        <Text style={styles.label}>Select Day</Text>
+        <TextInput
+          style={styles.input}
+          value={day}
+          onChangeText={setDay} // Optionally use a picker instead
+        />
+
+        <Button title="Submit" onPress={handleSubmit} color="#3B3030" />
+      </View>
     </SafeAreaView>
   );
 };
