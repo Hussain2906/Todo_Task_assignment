@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   View,
@@ -11,10 +11,10 @@ import {
   ActivityIndicator,
   ScrollView,
 } from 'react-native';
-import { signup } from '../../services/Auth';
+import {signup} from '../../services/Auth';
 import firestore from '@react-native-firebase/firestore'; // Import Firestore
 
-const SignupScreen = ({ navigation }) => {
+const SignupScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -37,7 +37,7 @@ const SignupScreen = ({ navigation }) => {
       Alert.alert('Invalid Name', 'Please enter a valid name.');
       return;
     }
-  
+
     if (!username || !validateUsername(username)) {
       Alert.alert(
         'Invalid Username',
@@ -45,17 +45,17 @@ const SignupScreen = ({ navigation }) => {
       );
       return;
     }
-  
+
     if (!email || !validateEmail(email)) {
       Alert.alert('Invalid Email', 'Please enter a valid email address.');
       return;
     }
-  
+
     if (!phone || !validatePhone(phone)) {
       Alert.alert('Invalid Phone Number', 'Please enter a valid phone number.');
       return;
     }
-  
+
     if (!password || !validatePassword(password)) {
       Alert.alert(
         'Invalid Password',
@@ -63,14 +63,14 @@ const SignupScreen = ({ navigation }) => {
       );
       return;
     }
-  
+
     if (password !== confirmPassword) {
       Alert.alert('Password Mismatch', 'Passwords do not match.');
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       // Create user data object
       const userData = {
@@ -83,7 +83,7 @@ const SignupScreen = ({ navigation }) => {
 
       // Call signup function with userData
       await signup(email, password, userData);
-  
+
       setLoading(false);
       Alert.alert('Success', 'Email verification link sent to your email.');
       navigation.replace('Login');
@@ -103,7 +103,13 @@ const SignupScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      contentContainerStyle={{
+        justifyContent: 'center',
+        flex: 1,
+        padding: 16,
+        backgroundColor: '#fff',
+      }}>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
