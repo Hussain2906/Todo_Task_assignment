@@ -18,9 +18,10 @@ const AddMenu = () => {
   const [roti, setRoti] = useState('');
   const [meethaas, setMeethaas] = useState('');
   const [tarkari, setTarkari] = useState('');
+  const [vegies, setVegies] = useState('');
   const [rice, setRice] = useState('');
   const [thaliBy, setThaliBy] = useState('');
-  const [day, setDay] = useState('Monday'); // New state for the day
+  const [day, setDay] = useState(''); // New state for the day
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
@@ -31,10 +32,11 @@ const AddMenu = () => {
     setLoading(true);
     try {
       // Add new data to Firestore with the day field
-      await firestore().collection('ThaaliMenu').add({
+      await firestore().collection('ThaaliMenu').doc(day).set({
         Roti: roti,
         Meethaas: meethaas,
         Tarkari: tarkari,
+        Vegetable: vegies,
         Rice: rice,
         Thali_By: thaliBy,
         Day: day, // Include the day field
@@ -47,9 +49,10 @@ const AddMenu = () => {
       setRoti('');
       setMeethaas('');
       setTarkari('');
+      setVegies('');
       setRice('');
       setThaliBy('');
-      setDay('Monday'); // Reset day to default
+      setDay(''); // Reset day to default
     } catch (error) {
       setLoading(false);
       Alert.alert('Error', 'Failed to submit form: ' + error.message);
@@ -58,7 +61,7 @@ const AddMenu = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.container1}>
+      <ScrollView style={styles.container1} showsVerticalScrollIndicator={false}>
         <Text style={styles.heading}>Add Menu</Text>
         <Text style={styles.label}>Roti / Naan</Text>
         <TextInput style={styles.input} value={roti} onChangeText={setRoti} />
@@ -67,6 +70,12 @@ const AddMenu = () => {
           style={styles.input}
           value={meethaas}
           onChangeText={setMeethaas}
+        />
+        <Text style={styles.label}>Vegetable/ Sabji</Text>
+        <TextInput
+          style={styles.input}
+          value={vegies}
+          onChangeText={setVegies}
         />
         <Text style={styles.label}>Tarkari / Dal</Text>
         <TextInput

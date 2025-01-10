@@ -23,6 +23,9 @@ const AdminDashboard = () => {
           <TouchableOpacity style={styles.box2} onPress={() => navigation.navigate('Deletemenu')}>
             <Text style={styles.boxText}>Delete Menu</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.box2} onPress={() => navigation.navigate('Name')}>
+            <Text style={styles.boxText}>Logout</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

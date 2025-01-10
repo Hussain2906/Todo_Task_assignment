@@ -20,14 +20,11 @@ const MenuScreen = () => {
   const [isMenuLoading, setIsMenuLoading] = useState(true);
 
   // Fetch menu data from Firestore for the selected day
-  const fetchMenuData = async day => {
+  const fetchMenuData = async (day) => {
     setIsMenuLoading(true);
     setSelectedDay(day);
     try {
-      const snapshot = await firestore()
-        .collection('ThaaliMenu')
-        .where('Day', '==', day) // Fetch data where the 'Day' matches the selected day
-        .get();
+      const snapshot = await firestore().collection('ThaaliMenu').doc(day)
       const data = snapshot.docs.map(doc => doc.data()); // Map Firestore documents to data array
       setMenuData(data);
     } catch (error) {
@@ -71,10 +68,10 @@ const MenuScreen = () => {
         <Modal
           isVisible={isModalVisible}
           onBackdropPress={toggleModal}
-          animationIn={'fadeIn'}
-          animationOut={'fadeOut'}
-          animationOutTiming={1000}
+          animationIn={'zoomIn'}
+          animationOut={'zoomOut'}
           animationInTiming={1000}
+          animationOutTiming={1000}
           backdropOpacity={0.4}>
           <View style={styles.modal}>
             {isMenuLoading ? (

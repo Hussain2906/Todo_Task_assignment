@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import AdminDashboard from '../Views/AdminScreens/AdminDashboard';
 import AddMenu from '../Views/AdminScreens/AddMenu';
 import DeleteMenu from '../Views/AdminScreens/DeleteMenu';
+import Name from '../Views/HomeScreens/Name'
 
 
 const Stack = createStackNavigator();
@@ -14,6 +15,7 @@ const AdminStack = () => {
         <Stack.Screen name = "AdminDashboard" component = {AdminDashboard} options={{headerShown:false}} />
         <Stack.Screen name = "Addmenu" component = {AddMenu} options={{headerShown:false}} />
         <Stack.Screen name = "Deletemenu" component = {DeleteMenu} options={{headerShown:false}} />
+        <Stack.Screen name = "Name" component = {Name} options={{headerShown:false}} />
     </Stack.Navigator>
   )
 }
