@@ -1,22 +1,26 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../Views/HomeScreens/HomeScreen';
 import ProfileScreen from '../Views/HomeScreens/ProfileScreen';
-import Icon from 'react-native-vector-icons/Entypo';
 import Name from '../Views/HomeScreens/Name';
+import images from '../Constants/images';
+import Icon, { Icons } from '../Constants/icons';
 
-const TabNavigation = ({navigation}) => {
+const TabNavigation = () => {
   const Tab = createBottomTabNavigator();
+  
+  // Custom tab bar style
   const customTabBarStyle = {
     activeTintColor: 'white',
     inactiveTintColor: 'gray',
-    style: {backgroundColor: 'black'},
+    style: { backgroundColor: 'black' },
     labelStyle: {
-      fontSize: 12, // Change this to your desired font size
-      fontWeight: 'bold', // You can add this line for bold labels if needed
+      fontSize: 12,
+      fontWeight: 'bold', // Bold labels
     },
   };
+
   return (
     <Tab.Navigator
       initialRouteName="HomeScreen"
@@ -32,13 +36,11 @@ const TabNavigation = ({navigation}) => {
           borderTopColor: 'transparent',
           borderRadius: 30,
           marginVertical: '4%',
-        //   marginHorizontal: '3%',
         },
-        showLabel: true,
         headerShown: true,
         headerStyle: {
-          height: 70,
-          backgroundColor: '#F6E6CB',
+          height: 80,
+          backgroundColor: '#6A9AB0',
           borderBottomEndRadius: 10,
           borderBottomStartRadius: 10,
           elevation: 0,
@@ -47,30 +49,26 @@ const TabNavigation = ({navigation}) => {
       }}
       tabBarOptions={{
         ...customTabBarStyle,
-        keyboardHidesTabBar: true, // Add this line to hide the tab bar when the keyboard is open
-      }}>
+        keyboardHidesTabBar: true, // Hide tab bar when keyboard is open
+      }}
+    >
       <Tab.Screen
         name="HomeScreen"
         options={{
           tabBarLabel: '',
           headerTitle: () => (
-            <Icon
-              name="controller-play"
-              color="grey"
-              size={40}
-              style={{marginLeft: 5}}
-            />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              {/* Add logo in title */}
+              <Image
+                source={images.picLogo} // Adjust the path to your logo
+                style={{ width: 50, height: 50, marginLeft: 5 }}
+                resizeMode="contain"
+              />
+            </View>
           ),
-          headerRight: () => (
-            <TouchableOpacity style={{}}>
-              <Text>Hussain</Text>
-            </TouchableOpacity>
-          ),
-          //   headerShown:false,
-          tabBarIcon: ({color}) => (
-            
-              <Icon name="controller-play" color="grey" size={25} />
-            
+          tabBarIcon: ({ color }) => (
+            // <Icon name="controller-play" color={color} size={25} />
+            <Icon type={Icons.Entypo} name={'home'} color={'black'} size={25}/>
           ),
         }}
         component={HomeScreen}
@@ -81,54 +79,39 @@ const TabNavigation = ({navigation}) => {
         options={{
           tabBarLabel: '',
           headerTitle: () => (
-            <Icon
-              name="controller-play"
-              color="grey"
-              size={40}
-              style={{marginLeft: 5}}
-            />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              {/* Add logo in title */}
+              <Image
+                source={images.picLogo} // Adjust the path to your logo
+                style={{ width: 50, height: 50, marginLeft: 5 }}
+                resizeMode="contain"
+              />
+            </View>
           ),
-          headerRight: () => (
-            <TouchableOpacity style={{}}>
-              <Text>Hussain</Text>
-            </TouchableOpacity>
-          ),
-          //   headerShown:false,
-          tabBarIcon: ({color}) => (
-            <Icon
-              name="controller-play"
-              color="grey"
-              size={25}
-            />
+          tabBarIcon: ({ color }) => (
+            <Icon name="controller-play" color={color} size={25} />
           ),
         }}
         component={ProfileScreen}
       />
+
       <Tab.Screen
         name="Name"
         options={{
           tabBarLabel: '',
           headerTitle: () => (
-            <Icon
-              name="controller-play"
-              color="grey"
-              size={40}
-              style={{marginLeft: 5}}
-              
-            />
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              {/* Add logo in title */}
+              <Image
+                source={images.picLogo
+                } // Adjust the path to your logo
+                style={{ width: 50, height: 50, marginLeft: 5 }}
+                resizeMode="contain"
+              />
+            </View>
           ),
-          headerRight: () => (
-            <TouchableOpacity style={{}}>
-              <Text>Hussain</Text>
-            </TouchableOpacity>
-          ),
-          //   headerShown:false,
-          tabBarIcon: ({color}) => (
-            <Icon
-              name="controller-play"
-              color="grey"
-              size={25}
-            />
+          tabBarIcon: ({ color }) => (
+            <Icon name="controller-play" color={color} size={25} />
           ),
         }}
         component={Name}
@@ -136,4 +119,5 @@ const TabNavigation = ({navigation}) => {
     </Tab.Navigator>
   );
 };
+
 export default TabNavigation;

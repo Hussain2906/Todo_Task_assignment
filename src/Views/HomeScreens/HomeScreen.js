@@ -9,13 +9,13 @@ import {
   ScrollView,
 } from 'react-native';
 import React, {useState} from 'react';
+import Swiper from 'react-native-swiper';
 
 // Constants
 import {ThameFont} from '../../Constants/theme'; // Ensure this import is correct and ThameFont is properly defined
 import images from '../../Constants/images';
 import MenuScreen from '../Screens/MenuScreen';
-import { useNavigation } from '@react-navigation/native';
-
+import {useNavigation} from '@react-navigation/native';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -46,45 +46,35 @@ const HomeScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.container1}>
-        <View style={styles.innerContainer}>
-          <TouchableOpacity onPress={()=>navigation.navigate('Menu')} style={styles.box1}>
-            <Text style={styles.boxText}>Today's Menu</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.box2}>
-            <Text style={styles.boxText}>Give Feedback</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Carousel using ScrollView */}
-        <ScrollView
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          onScroll={handleScroll}
-          scrollEventThrottle={16}>
-          {dummyData.map((item, index) => (
-            <View style={styles.carouselItem} key={index}>
-                <Image source={item.image} style={styles.image} />
-              <Text style={styles.carouselTitle}>{item.title}</Text>
-            </View>
-          ))}
+    <SafeAreaView style={{backgroundColor:'white', height:'100%'}}>
+      <View style={{width:'100%'}}>
+        <ScrollView>
+          <View style={{width:'100%', flexDirection:'row', justifyContent:'space-evenly', marginVertical:'10%'}}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Menu')}
+              style={styles.box1}>
+              <Text style={styles.boxText}>Today's Menu</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.box2}>
+              <Text style={styles.boxText}>Give Feedback</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
-
-        {/* Indicator Dots */}
-        <View style={styles.indicatorContainer}>
-          {dummyData.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.indicatorDot,
-                index === activeIndex ? styles.activeDot : styles.inactiveDot,
-              ]}
-            />
-          ))}
-        </View>
       </View>
+      <Swiper
+        style={styles.wrapper}
+        showsButtons={false}
+        autoplay={true}      // Enable auto-scroll
+        autoplayTimeout={5}  // Auto-scroll every 3 seconds
+        loop={true}          // Infinite loop
+      >
+        {dummyData.map((item, index) => (
+          <View key={index} style={styles.slide}>
+            <Image source={item.image} style={styles.image} />
+            <Text style={styles.carouselTitle}>{item.title}</Text>
+          </View>
+        ))}
+      </Swiper>
     </SafeAreaView>
   );
 };
@@ -92,55 +82,41 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-  },
-  container1: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    // backgroundColor:"#A0937D",
-    // margin:10,
-    borderRadius: 30,
-  },
   innerContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    width: '80%',
-    height: '45%',
-    backgroundColor: '#F6E6CB',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    height: '50%',
     paddingHorizontal: 40,
-    borderRadius: 50,
-    marginHorizontal: '10%',
-    marginVertical: '10%',
   },
   box1: {
-    padding: 40,
-    backgroundColor: '#A0937D',
+    padding: 30,
+    backgroundColor: '#001F3F',
     alignItems: 'center',
     borderRadius: 30,
   },
   box2: {
-    padding: 40,
-    backgroundColor: '#A0937D',
+    padding: 30,
+    backgroundColor: '#001F3F',
     alignItems: 'center',
     borderRadius: 30,
   },
   boxText: {
     fontSize: 16,
     color: '#F6E6CB',
-    fontFamily: ThameFont.PrimaryExtraBold, // Ensure ThameFont is defined properly
+    fontFamily: ThameFont.PrimaryExtraBold,
   },
-  // Carousel Item Styles
-  carouselItem: {
+  // Swiper Styles
+  wrapper: {
+    height: "100%", // Adjust height based on your design
+  },
+  slide: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    width: screenWidth,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    // backgroundColor: '#F6E6CB',
-    borderRadius: 50,
+    borderRadius: 20,
+    marginHorizontal: 10,
+    backgroundColor: '#6A9AB0',
   },
   image: {
     width: '90%',
@@ -152,23 +128,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: ThameFont.PrimaryExtraBold,
     color: '#333',
-  },
-  // Carousel Indicator Styles
-  indicatorContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom:10 ,
-  },
-  indicatorDot: {
-    height: 10,
-    width: 10,
-    borderRadius: 5,
-    marginHorizontal: 5,
-  },
-  activeDot: {
-    backgroundColor: 'blue',
-  },
-  inactiveDot: {
-    backgroundColor: 'lightgray',
   },
 });

@@ -13,10 +13,11 @@ import {
 } from 'react-native';
 import {signup} from '../../services/Auth';
 import firestore from '@react-native-firebase/firestore'; // Import Firestore
+import {ThameFont} from '../../Constants/theme';
 
 const SignupScreen = ({navigation}) => {
   const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,7 +26,7 @@ const SignupScreen = ({navigation}) => {
   const [address, setAddress] = useState('');
 
   const validateName = name => /^[a-zA-Z\s]+$/.test(name);
-  const validateUsername = username => /^[a-zA-Z0-9_]{3,}$/.test(username);
+  // const validateUsername = username => /^[a-zA-Z0-9_]{3,}$/.test(username);
   const validateEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePassword = password =>
     /^(?=.*[!@#$%^&*])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
@@ -35,14 +36,6 @@ const SignupScreen = ({navigation}) => {
     // Form validation
     if (!name || !validateName(name)) {
       Alert.alert('Invalid Name', 'Please enter a valid name.');
-      return;
-    }
-
-    if (!username || !validateUsername(username)) {
-      Alert.alert(
-        'Invalid Username',
-        'Username must be at least 3 characters long and can contain letters, numbers, and underscores.',
-      );
       return;
     }
 
@@ -75,7 +68,6 @@ const SignupScreen = ({navigation}) => {
       // Create user data object
       const userData = {
         name,
-        username,
         email,
         phone,
         address,
@@ -89,7 +81,6 @@ const SignupScreen = ({navigation}) => {
       navigation.replace('Login');
       // Reset form fields
       setName('');
-      setUsername('');
       setEmail('');
       setPhone('');
       setAddress('');
@@ -103,83 +94,185 @@ const SignupScreen = ({navigation}) => {
   };
 
   return (
-    <ScrollView
+    <SafeAreaView
+      showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         justifyContent: 'center',
         flex: 1,
-        padding: 16,
-        backgroundColor: '#fff',
+        padding: 10,
+        backgroundColor: '#D8C4B6 ',
       }}>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
-        <View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Name"
-              placeholderTextColor={'black'}
-              value={name}
-              onChangeText={setName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Username"
-              placeholderTextColor={'black'}
-              value={username}
-              onChangeText={setUsername}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              placeholderTextColor={'black'}
-              value={email}
-              onChangeText={setEmail}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Phone Number"
-              placeholderTextColor={'black'}
-              value={phone}
-              onChangeText={setPhone}
-              keyboardType="phone-pad"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Address"
-              placeholderTextColor={'black'}
-              value={address}
-              onChangeText={setAddress}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              placeholderTextColor={'black'}
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Confirm Password"
-              placeholderTextColor={'black'}
-              secureTextEntry
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-            />
-            <Button title="Sign Up" onPress={handleSubmit} />
+        <ScrollView>
+          <View style={styles.signupContainer}>
+            <View style={{marginTop: 50}}>
+              <Text
+                style={{
+                  color: '#213555',
+                  fontSize: 30,
+                  fontFamily: ThameFont.PrimaryBold,
+                }}>
+                Welcome !
+              </Text>
+              <Text
+                style={{
+                  marginBottom: 20,
+                  fontSize: 20,
+                  fontFamily: ThameFont.PrimaryExtraBold,
+                  color: '#213555',
+                  textAlign: 'center',
+                }}>
+                Create Account
+              </Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: ThameFont.PrimaryBold,
+                  color: '#3E5879',
+                  margin: '2.5%',
+                }}>
+                Name
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
+              />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: ThameFont.PrimaryBold,
+                  color: '#3E5879',
+                  margin: '2.5%',
+                }}>
+                Email
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={email}
+                onChangeText={setEmail}
+              />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: ThameFont.PrimaryBold,
+                  color: '#3E5879',
+                  margin: '2.5%',
+                }}>
+                Phone number
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={phone}
+                onChangeText={setPhone}
+                keyboardType="phone-pad"
+              />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: ThameFont.PrimaryBold,
+                  color: '#3E5879',
+                  margin: '2.5%',
+                }}>
+                Address
+              </Text>
+              <TextInput
+                style={styles.input}
+                value={address}
+                onChangeText={setAddress}
+              />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: ThameFont.PrimaryBold,
+                  color: '#3E5879',
+                  margin: '2.5%',
+                }}>
+                Password
+              </Text>
+              <TextInput
+                style={styles.input}
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+              />
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: ThameFont.PrimaryBold,
+                  color: '#3E5879',
+                  margin: '2.5%',
+                }}>
+                Confirm Password
+              </Text>
+              <TextInput
+                style={styles.input}
+                secureTextEntry
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
+              <View
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  marginHorizontal: '5%',
+                  marginTop: 30,
+                }}>
+                <TouchableOpacity
+                  onPress={handleSubmit}
+                  style={{
+                    backgroundColor: '#3E5879',
+                    width: '90%',
+                    justifyContent: 'center',
+                    height: 55,
+                    borderColor: 'black',
+                    borderWidth: 3,
+                    borderRadius: 30,
+                    padding: 10,
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: 20,
+                      fontFamily: ThameFont.PrimaryBold,
+                      color: '#D8C4B6',
+                    }}>
+                    Signup
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View
+              style={{
+                flexDirection: 'column',
+                justifyContent: 'center',
+                marginHorizontal: '5%',
+                padding: 10,
+              }}>
+              <Text style={styles.link}>
+                Already a user?{' '}
+                <TouchableOpacity
+                  style={{height: 21}}
+                  onPress={() => navigation.navigate('Login')}>
+                  <Text
+                    style={{
+                      fontSize: 17,
+                      fontFamily: ThameFont.PrimarySemiBold,
+                      color: '#213555',
+                    }}>
+                    Login
+                  </Text>
+                </TouchableOpacity>
+              </Text>
+            </View>
           </View>
-          <View>
-            <Text style={styles.link}>
-              Already a user?{' '}
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text>Login</Text>
-              </TouchableOpacity>
-            </Text>
-          </View>
-        </View>
+        </ScrollView>
       )}
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -190,17 +283,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#D8C4B6 ',
   },
   inputContainer: {
     marginBottom: 20,
+    width: '95%',
+  },
+  signupContainer: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
+    height: 50,
+    borderColor: 'black',
+    borderWidth: 3,
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
+    borderRadius: 30,
+    width: '100%',
   },
   button: {
     backgroundColor: '#007BFF',
@@ -213,8 +315,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   link: {
-    color: '#007BFF',
+    color: '#3E5879',
     textAlign: 'center',
-    marginTop: 20,
+    fontFamily: ThameFont.PrimaryMeduim,
+    fontSize: 18,
+    padding: 10,
+    marginLeft: 10,
   },
 });
