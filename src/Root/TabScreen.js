@@ -2,10 +2,11 @@ import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../Views/HomeScreens/HomeScreen';
-import ProfileScreen from '../Views/HomeScreens/ProfileScreen';
+import ProfileScreen from '../Views/HomeScreens/DownloadScreen';
 import Name from '../Views/HomeScreens/Name';
 import images from '../Constants/images';
 import Icon, { Icons } from '../Constants/icons';
+import DownloadScreen from '../Views/HomeScreens/DownloadScreen';
 
 const TabNavigation = () => {
   const Tab = createBottomTabNavigator();
@@ -32,7 +33,7 @@ const TabNavigation = () => {
           height: 70,
           paddingBottom: 10,
           paddingTop: 10,
-          backgroundColor: '#F6E6CB',
+          backgroundColor: 'white',
           borderTopColor: 'transparent',
           borderRadius: 30,
           marginVertical: '4%',
@@ -75,7 +76,7 @@ const TabNavigation = () => {
       />
 
       <Tab.Screen
-        name="ProfileScreen"
+        name="DownloadScreen"
         options={{
           tabBarLabel: '',
           headerTitle: () => (
@@ -92,7 +93,7 @@ const TabNavigation = () => {
             <Icon name="controller-play" color={color} size={25} />
           ),
         }}
-        component={ProfileScreen}
+        component={DownloadScreen}
       />
 
       <Tab.Screen

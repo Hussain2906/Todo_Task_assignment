@@ -7,9 +7,11 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Swiper from 'react-native-swiper';
+import YoutubePlayer from "react-native-youtube-iframe";
 
 // Constants
 import {ThameFont} from '../../Constants/theme'; // Ensure this import is correct and ThameFont is properly defined
@@ -35,15 +37,26 @@ const dummyData = [
 ];
 
 const HomeScreen = () => {
+  const [playing, setPlaying] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0);
   const navigation = useNavigation();
 
+  const changeState = useCallback((state)=>{
+    if(state === 'ended'){
+      setPlaying(false)
+      Alert.alert('Video','Video is Ended')
+    }
+  },[])
+
+  const tooglePlay = useCallback(()=>{
+    setPlaying((prev)=> !prev)
+  },[])
   // Handle scroll position to update active index
-  const handleScroll = event => {
-    const scrollPosition = event.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(scrollPosition / screenWidth);
-    setActiveIndex(currentIndex);
-  };
+  // const handleScroll = event => {
+  //   const scrollPosition = event.nativeEvent.contentOffset.x;
+  //   const currentIndex = Math.round(scrollPosition / screenWidth);
+  //   setActiveIndex(currentIndex);
+  // };
 
   return (
     <SafeAreaView style={{backgroundColor:'white', height:'100%'}}>
@@ -61,20 +74,17 @@ const HomeScreen = () => {
           </View>
         </ScrollView>
       </View>
-      <Swiper
-        style={styles.wrapper}
-        showsButtons={false}
-        autoplay={true}      // Enable auto-scroll
-        autoplayTimeout={5}  // Auto-scroll every 3 seconds
-        loop={true}          // Infinite loop
-      >
-        {dummyData.map((item, index) => (
-          <View key={index} style={styles.slide}>
-            <Image source={item.image} style={styles.image} />
-            <Text style={styles.carouselTitle}>{item.title}</Text>
-          </View>
-        ))}
-      </Swiper>
+      <View style={{width:'90%', justifyContent:'center', marginHorizontal:'5%', marginVertical:'5%'}}>
+        <YoutubePlayer 
+        height={250}
+        videoId={'MxIPQZ64x0I'}
+        play={playing}
+        onChangeState={changeState}
+        />
+        <View style={{flexDirection:'row', width:'100%', justifyContent:'center'}}>
+        <TouchableOpacity style={styles.playbtn}  onPress={tooglePlay}><Text style={styles.btnText}>Play & Pause Video</Text></TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -129,4 +139,20 @@ const styles = StyleSheet.create({
     fontFamily: ThameFont.PrimaryExtraBold,
     color: '#333',
   },
+  playbtn:{
+    width:'auto',
+    height:40,
+    // backgroundColor:'grey',
+    justifyContent:'center',
+    borderWidth:4,
+    borderColor:'#001F3F',
+    borderRadius:30,
+    elevation:5,
+    paddingHorizontal:10
+  },
+  btnText:{
+    fontSize:16,
+    fontFamily:ThameFont.PrimarySemiBold,
+    textAlign:'center'
+  }
 });
