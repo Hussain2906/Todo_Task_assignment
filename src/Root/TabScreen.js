@@ -41,9 +41,7 @@ const TabNavigation = () => {
         headerShown: true,
         headerStyle: {
           height: 80,
-          backgroundColor: '#6A9AB0',
-          borderBottomEndRadius: 10,
-          borderBottomStartRadius: 10,
+          backgroundColor: '#001F3F',
           elevation: 0,
           shadowOpacity: 0,
         },

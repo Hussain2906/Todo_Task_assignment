@@ -13,7 +13,7 @@ const dumyData = [
 ]
 
 const renderItem = ({item})=>(
-  <View style={{flexDirection:'row', backgroundColor:'yellow', height:80, width:'90%', justifyContent:'space-between', marginHorizontal:'5%', marginTop:'10%', padding:5, borderRadius:30, borderWidth:4, borderColor:'#001F3F'}}>
+  <View style={{flexDirection:'row', height:80, width:'90%', justifyContent:'space-between', marginHorizontal:'5%', marginTop:'10%', padding:5, borderRadius:30, borderWidth:4, borderColor:'#001F3F'}}>
     <View style={{justifyContent:'center',width:'50%'}}>
       <Text style={{fontSize:15, fontFamily:ThameFont.PrimaryMeduim}}>{item.title}</Text>
     </View>
