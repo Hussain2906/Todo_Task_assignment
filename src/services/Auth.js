@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore'; // Ensure Firestore is
 import { Alert } from 'react-native';
 
 // Function to handle user signup
-export const signup = async (email, password, userData) => {
+export const signup = async (email, password, userData={}) => {
   try {
     console.log('Received userData:', userData); // Debugging step to see the userData
 
@@ -17,7 +17,7 @@ export const signup = async (email, password, userData) => {
     const { uid } = userCredentials.user;
   
     // Enhanced validation for userData
-    if (userData && typeof userData === 'object' && Object.keys(userData).length > 0) {
+    if (typeof userData === 'object') {
       await firestore().collection('users').doc(uid).set({
         email,
         ...userData, // Spread additional user data like name, phone, etc.
@@ -74,19 +74,23 @@ export const login = async (email, password) => {
     let errorMessage;
     switch (error.code) {
       case 'auth/invalid-email':
-        errorMessage = 'Invalid email';
+        errorMessage = 'Invalid email address.';
         break;
       case 'auth/user-not-found':
-        errorMessage = 'User not found';
+        errorMessage = 'User not found.';
         break;
       case 'auth/wrong-password':
-        errorMessage = 'Wrong password';
+        errorMessage = 'Incorrect password.';
+        break;
+      case 'auth/invalid-credential':
+        errorMessage = 'Invalid credentials. Try again.';
         break;
       default:
-        errorMessage = 'Something went wrong';
+        errorMessage = error.message;
+        console.log('Unhandled Firebase Auth error:', error);
         break;
     }
-    // Show error message
+
     Alert.alert('Login Error', errorMessage);
     throw new Error(errorMessage);
   }

@@ -1,36 +1,65 @@
 import firestore from '@react-native-firebase/firestore';
 
-export const addUserData = async (userData) => {
-    try {
-        await firestore().collection('users').add(userData);
-        console.log('User added successfully!');
-    } catch (error) {
-        console.error('Error adding user: ', error);
-    }
-}
-export const getUser = async () => {
-    try {
-        const userSnapshot = await firestore().collection('users').get();
-        const users = userSnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
-        console.log('User fetched successfully!', users);
-        return users;
-    } catch (error) {
-        console.error('Error fetching user data: ', error);
-    }
-}
-export const updateUser = async ( id, updatedData ) => {
-    try {
-        await firestore().collection('users').doc(id).update(updatedData);
-        console.log('User updated successfully!');
-    } catch (error) {
-        console.error('Error updating user data: ', error);
-    }
-}
-export const deleteUser = async ( id ) => {
-    try {
-        await firestore().collection('users').doc(id).delete()
-        console.log('User Deleted successfully!');
-    } catch (error) {
-        console.error('Error Deleting user data: ', error);
-    }
-}
+// Pass UID of current user
+export const addTask = async (uid, taskData) => {
+  try {
+    await firestore()
+      .collection('users')
+      .doc(uid)
+      .collection('tasks')
+      .add(taskData);
+    console.log('Task added successfully!');
+  } catch (error) {
+    console.error('Error adding task: ', error);
+  }
+};
+
+export const getTasks = async (uid) => {
+  try {
+    const snapshot = await firestore()
+      .collection('users')
+      .doc(uid)
+      .collection('tasks')
+      .orderBy('dueDate', 'asc') // Sort by due date
+      .get();
+
+    const tasks = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+      dueDate: doc.data().dueDate.toDate(), // convert Firestore timestamp to JS Date
+    }));
+
+    return tasks;
+  } catch (error) {
+    console.error('Error fetching tasks: ', error);
+    return [];
+  }
+};
+
+export const updateTask = async (uid, taskId, updatedData) => {
+  try {
+    await firestore()
+      .collection('users')
+      .doc(uid)
+      .collection('tasks')
+      .doc(taskId)
+      .update(updatedData);
+    console.log('Task updated successfully!');
+  } catch (error) {
+    console.error('Error updating task: ', error);
+  }
+};
+
+export const deleteTask = async (uid, taskId) => {
+  try {
+    await firestore()
+      .collection('users')
+      .doc(uid)
+      .collection('tasks')
+      .doc(taskId)
+      .delete();
+    console.log('Task deleted successfully!');
+  } catch (error) {
+    console.error('Error deleting task: ', error);
+  }
+};

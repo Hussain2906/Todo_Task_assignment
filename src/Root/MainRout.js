@@ -8,25 +8,20 @@ import auth from '@react-native-firebase/auth';
 // Import the different stacks
 import AuthStack from './AuthStack'; // Ensure these paths are correct
 import MainStack from './MainStack';
-import AdminStack from './AdminStack';
 
 // MainRout component
 const MainRout = () => {
   const Stack = createStackNavigator();
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
-  const AdminUid = 'upty9ZVvykMStCrjUGZifHwwHJO2';
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(user => {
       if (user) {
         setIsLoggedIn(true);
         setUser(user);
-        setIsAdmin(user.uid === AdminUid ); // Replace with actual admin UID
       } else {
         setIsLoggedIn(false);
-        setIsAdmin(false);
       }
     });
     return unsubscribe;
@@ -39,11 +34,10 @@ const MainRout = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={isLoggedIn ? (isAdmin ? 'AdminStack' : 'MainStack') : 'AuthStack'}
+        initialRouteName={isLoggedIn ? 'MainStack' : 'AuthStack'}
       >
         <Stack.Screen name="AuthStack" component={AuthStack} options={{headerShown:false}} />
         <Stack.Screen name="MainStack" component={MainStack} options={{headerShown:false}} />
-        <Stack.Screen name="AdminStack" component={AdminStack} options={{headerShown:false}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
